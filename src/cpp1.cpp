@@ -6,7 +6,6 @@ class Apartment;
 class House;
 class Neighbourhood;
 class City;
-class Contact;
 class Image;
 class Min_max_criteria;
 class Bool_criteria;
@@ -509,3 +508,4 @@ int main() {
     
     return 0;
 }
+
