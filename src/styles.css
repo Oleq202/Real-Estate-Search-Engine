@@ -1,0 +1,151 @@
+/* --- Global Variables & Root --- */
+/* Define custom colors and sizes */
+.root {
+    -fx-primary-color: #3f51b5; /* Deep Indigo (Primary Accent) */
+    -fx-secondary-color: #ff4081; /* Pink Accent (For highlights/sliders) */
+    -fx-background-color: #e8eaf6; /* Lighter Indigo Background */
+    -fx-card-background: #ffffff;
+    -fx-font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+    -fx-padding: 15px;
+}
+
+/* Apply the background color to the main layout container */
+.vbox {
+    -fx-background-color: -fx-background-color; /* Use the root background color */
+}
+
+/* --- Containers (The 'Cards') --- */
+.grid-pane {
+    -fx-padding: 20px;
+    -fx-background-color: -fx-card-background; /* White card background */
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    
+    /* Add a subtle shadow for a floating, "material" look */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+}
+
+/* Style the TabPane itself */
+.tab-pane {
+    -fx-tab-min-width: 150px;
+    -fx-tab-max-width: 200px;
+    -fx-tab-min-height: 30px;
+}
+
+/* Style the individual tabs */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #e8eaf6;
+}
+.tab {
+    -fx-background-color: #c5cae9; /* Light grey tab color */
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 8px 8px 0 0;
+}
+.tab:selected {
+    -fx-background-color: -fx-card-background; /* Selected tab is white (matches the card) */
+    -fx-border-width: 0 0 3px 0;
+    -fx-border-color: -fx-primary-color; /* Blue bottom line indicator */
+}
+
+/* --- Typography and Controls --- */
+
+.label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #333333; /* Darker text */
+    -fx-font-weight: 500;
+}
+
+.check-box .box {
+    -fx-border-color: #999;
+    -fx-background-color: white;
+}
+.check-box:selected .box {
+    -fx-background-color: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+}
+
+/* --- Sliders (Making them look modern) --- */
+.slider .track {
+    -fx-background-color: #bbbbbb; /* Lighter track */
+    -fx-pref-height: 6px;
+    -fx-background-radius: 3px;
+}
+.slider .thumb {
+    -fx-background-color: -fx-primary-color; /* Blue thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 1.0em; /* Circle shape */
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+.slider:focused .thumb {
+    -fx-background-color: #536dfe; /* Lighter blue on focus */
+}
+.slider .axis {
+    -fx-tick-label-fill: #777; /* Grey tick labels */
+    -fx-font-size: 10px;
+}
+
+/* --- Search Button Styling (More prominent) --- */
+#search-button {
+    -fx-background-color: -fx-secondary-color; /* Pink accent color */
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-padding: 12px 30px;
+    -fx-background-radius: 30px; /* Pill shape */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 3);
+}
+
+#search-button:hover {
+    -fx-background-color: #d81b60; /* Darker pink on hover */
+}
+
+/* --- Search Results --- */
+.results-layout {
+    -fx-background-color: -fx-card-background;
+    -fx-padding: 15px;
+    -fx-spacing: 5px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 8, 0, 0, 1);
+}
+
+.results-layout .label {
+    -fx-font-weight: normal;
+    -fx-text-fill: #555555;
+    -fx-padding: 5px 0 5px 0;
+    -fx-border-color: #eee;
+    -fx-border-width: 0 0 1px 0; /* Separator line */
+    -fx-font-size: 14px;
+}
+
+.results-layout .label:first-child {
+    -fx-font-style: italic; /* Style the initial/empty message differently */
+}
+
+/* Style for the HBox containing search options/button */
+#options-bar {
+    -fx-padding: 10px 0 10px 0;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+/* Style for the button that opens the selector */
+#neighbourhood-button {
+    -fx-background-color: #673ab7; /* Purple accent */
+    -fx-text-fill: white;
+    -fx-font-weight: 500;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 4px;
+}
+
+#neighbourhood-button:hover {
+    -fx-background-color: #512da8; /* Darker purple on hover */
+}
+
+/* Style for the actual pop-up content VBox */
+.neighbourhood-popup-content {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 0, 4);
+}
