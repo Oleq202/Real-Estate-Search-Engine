@@ -15,15 +15,6 @@ class All_home_list;
 class Home_initializer;
 class Neighbourhood_initializer;
 
-class Contact{
-    public:
-    string phone_number;
-    string email;
-
-    Contact() = default;
-    Contact(const string& phone_number, const string& email) : phone_number(phone_number), email(email) {}
-};
-
 class Image{
     private:
     string image_path;
@@ -42,6 +33,7 @@ class Image{
 
 class Home{
     public:
+    int id;
     string address;
     int price = 0;
     int area = 0;
@@ -54,15 +46,14 @@ class Home{
     bool is_primary_market = false;
     string web_path;
 
-    Neighbourhood* neighbourhood = nullptr;
-    Contact* contact = nullptr;
+    Neighbourhood* neighbourhood;
     unique_ptr<Image> image;
 
     Home() = default;
-    Home(string address, int price, int area, int num_of_rooms, bool has_kitchen_annex, int construction_year, int transport_dist,
+    Home(int id, string address, int price, int area, int num_of_rooms, bool has_kitchen_annex, int construction_year, int transport_dist,
          int parking_spots, bool for_sale, bool is_primary_market, string web_path,
          Neighbourhood* neighbourhood, unique_ptr<Image> image)
-        : address(address), price(price), area(area), num_of_rooms(num_of_rooms), has_kitchen_annex(has_kitchen_annex),
+        : id(id), address(address), price(price), area(area), num_of_rooms(num_of_rooms), has_kitchen_annex(has_kitchen_annex),
           construction_year(construction_year), transport_dist(transport_dist), parking_spots(parking_spots),
           for_sale(for_sale), is_primary_market(is_primary_market), web_path(web_path),
           neighbourhood(neighbourhood), image(move(image)) {}
@@ -81,10 +72,10 @@ class Apartment: public Home{
     bool has_elevator = 0;
 
     Apartment() = default;
-    Apartment(string address, int price, int area, int num_of_rooms, bool has_kitchen_annex, int construction_year, int transport_dist,
+    Apartment(int id, string address, int price, int area, int num_of_rooms, bool has_kitchen_annex, int construction_year, int transport_dist,
               int parking_spots, bool for_sale, bool is_primary_market, string web_path, int floor, bool has_elevator,
               Neighbourhood* neighbourhood = nullptr, unique_ptr<Image> image = nullptr)
-        : Home(address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist,
+        : Home(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist,
                parking_spots, for_sale, is_primary_market, web_path,
                neighbourhood, move(image)),
           floor(floor), has_elevator(has_elevator) {}
@@ -97,10 +88,10 @@ class House: public Home{
     int num_of_floors = 0;
 
     House() = default;
-    House(string address, int price, int area, int num_of_rooms, bool has_kitchen_annex, int construction_year, int transport_dist,
+    House(int id, string address, int price, int area, int num_of_rooms, bool has_kitchen_annex, int construction_year, int transport_dist,
           int parking_spots, bool for_sale, bool is_primary_market, string web_path, int garden_area, int num_of_floors,
           Neighbourhood* neighbourhood = nullptr, unique_ptr<Image> image = nullptr)
-        : Home(address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist,
+        : Home(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist,
                parking_spots, for_sale, is_primary_market, web_path,
                neighbourhood, move(image)),
           garden_area(garden_area), num_of_floors(num_of_floors) {}
@@ -391,36 +382,37 @@ class Home_initializer{
             }
 
             try {
-                string type = row[0];
-                string address = row[1];
-                int price = stoi(row[2]);
-                int area = stoi(row[3]);
-                int num_of_rooms = stoi(row[4]);
-                bool has_kitchen_annex = parse_bool(row[5]);
-                int construction_year = stoi(row[6]);
-                int transport_dist = stoi(row[7]);
-                int parking_spots = stoi(row[8]);
-                bool for_sale = parse_bool(row[9]);
-                bool is_primary_market = parse_bool(row[10]);
+                int id = stoi(row[0]);
+                string type = row[1];
+                string address = row[2];
+                int price = stoi(row[3]);
+                int area = stoi(row[4]);
+                int num_of_rooms = stoi(row[5]);
+                bool has_kitchen_annex = parse_bool(row[6]);
+                int construction_year = stoi(row[7]);
+                int transport_dist = stoi(row[8]);
+                int parking_spots = stoi(row[9]);
+                bool for_sale = parse_bool(row[10]);
+                bool is_primary_market = parse_bool(row[11]);
                 
-                string col_11 = row[11];
                 string col_12 = row[12];
-                string neighbourhood_name = row[13];
-                string web_path = (row.size() > 14) ? row[14] : ""; 
+                string col_13 = row[13];
+                string neighbourhood_name = row[14];
+                string web_path = (row.size() > 15) ? row[15] : ""; 
 
                 Neighbourhood* neighbourhood = find_neighbourhood(city, neighbourhood_name);
                 
                 if (neighbourhood) {
                     if (type == "apartment") {
-                        int floor = stoi(col_11);
-                        bool has_elevator = parse_bool(col_12);
-                        auto apartment = make_unique<Apartment>(address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, floor, has_elevator, neighbourhood);
+                        int floor = stoi(col_12);
+                        bool has_elevator = parse_bool(col_13);
+                        auto apartment = make_unique<Apartment>(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, floor, has_elevator, neighbourhood);
                         all_home_list.homes.push_back(apartment.get());
                         neighbourhood->home_list.push_back(move(apartment));
                     } else if (type == "house") {
-                        int garden_area = stoi(col_11);
-                        int num_of_floors = stoi(col_12);
-                        auto house = make_unique<House>(address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, garden_area, num_of_floors, neighbourhood);
+                        int garden_area = stoi(col_12);
+                        int num_of_floors = stoi(col_13);
+                        auto house = make_unique<House>(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, garden_area, num_of_floors, neighbourhood);
                         all_home_list.homes.push_back(house.get());
                         neighbourhood->home_list.push_back(move(house));
                     }
@@ -485,10 +477,10 @@ int main() {
     auto Poznan = make_unique<City>("Poznan", 538633, false);
 
     Neighbourhood_initializer neighbourhood_initializer;
-    neighbourhood_initializer.read_csv("Neighbourhoods.csv", *Poznan);
+    neighbourhood_initializer.read_csv("csv/Neighbourhoods.csv", *Poznan);
 
     Home_initializer initializer;
-    initializer.read_csv("Homes.csv", *Poznan, all_homes);
+    initializer.read_csv("csv/Homes.csv", *Poznan, all_homes);
 
     Search_criteria criteria;
     criteria.price = Min_max_criteria(350000, 380000, 10, 25000);
