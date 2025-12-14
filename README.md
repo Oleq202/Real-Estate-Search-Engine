@@ -1,4 +1,5 @@
 Things to do:
+
 cpp1.cpp:
 - add a way to store and connect the images to the homes
    
