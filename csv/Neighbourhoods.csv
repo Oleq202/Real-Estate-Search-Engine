@@ -1,0 +1,12 @@
+name,city,has_school,has_park,has_shop,has_pharmacy
+Jezyce,Poznan,TRUE,FALSE,TRUE,TRUE
+Wilda,Poznan,TRUE,FALSE,TRUE,TRUE
+Grunwald,Poznan,TRUE,TRUE,TRUE,TRUE
+Rataje,Poznan,TRUE,TRUE,TRUE,TRUE
+Stare Miasto,Poznan,TRUE,FALSE,TRUE,TRUE
+Srodka,Poznan,FALSE,FALSE,TRUE,TRUE
+Glowna,Poznan,TRUE,FALSE,TRUE,TRUE
+Piatkowo,Poznan,TRUE,TRUE,TRUE,TRUE
+Winogrady,Poznan,TRUE,TRUE,TRUE,TRUE
+Lazarz,Poznan,TRUE,TRUE,TRUE,TRUE
+Podolany,Poznan,TRUE,FALSE,TRUE,TRUE
