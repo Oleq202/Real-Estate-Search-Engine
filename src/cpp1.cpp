@@ -22,7 +22,6 @@ class Image{
     public:
 
     Image() = default;
-    Image(const string& image_path, const string& description) : image_path(image_path), description(description) {}
 
     void set_path(const string& p) {image_path = p;}
     string get_path() const {return image_path;}
@@ -354,6 +353,11 @@ class Home_initializer{
         return nullptr;
     }
 
+    bool file_exists(const string& name) {
+        ifstream f(name.c_str());
+        return f.good();
+    }
+
     public:
     void read_csv(const string& filename, City& city, All_home_list& all_home_list) {
         ifstream file(filename);
@@ -401,18 +405,35 @@ class Home_initializer{
                 string web_path = (row.size() > 15) ? row[15] : ""; 
 
                 Neighbourhood* neighbourhood = find_neighbourhood(city, neighbourhood_name);
+
+                string image_plan_path = "img/" + to_string(id) + ".plan.png";
+                string image_interior_path = "img/" + to_string(id) + ".interior.png";
+                string image_exterior_path = "img/" + to_string(id) + ".exterior.png";
+                unique_ptr<Image> image = make_unique<Image>();
+                if (file_exists(image_plan_path)) {
+                    image->set_path(image_plan_path);
+                    image->set_description("Floor Plan");
+                } else if (file_exists(image_interior_path)) {
+                    image->set_path(image_interior_path);
+                    image->set_description("Interior View");
+                } else if (file_exists(image_exterior_path)) {
+                    image->set_path(image_exterior_path);
+                    image->set_description("Exterior View");
+                } else {
+                    image = nullptr; 
+                }
                 
                 if (neighbourhood) {
                     if (type == "apartment") {
                         int floor = stoi(col_12);
                         bool has_elevator = parse_bool(col_13);
-                        auto apartment = make_unique<Apartment>(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, floor, has_elevator, neighbourhood);
+                        auto apartment = make_unique<Apartment>(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, floor, has_elevator, neighbourhood, move(image));
                         all_home_list.homes.push_back(apartment.get());
                         neighbourhood->home_list.push_back(move(apartment));
                     } else if (type == "house") {
                         int garden_area = stoi(col_12);
                         int num_of_floors = stoi(col_13);
-                        auto house = make_unique<House>(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, garden_area, num_of_floors, neighbourhood);
+                        auto house = make_unique<House>(id, address, price, area, num_of_rooms, has_kitchen_annex, construction_year, transport_dist, parking_spots, for_sale, is_primary_market, web_path, garden_area, num_of_floors, neighbourhood, move(image));
                         all_home_list.homes.push_back(house.get());
                         neighbourhood->home_list.push_back(move(house));
                     }
