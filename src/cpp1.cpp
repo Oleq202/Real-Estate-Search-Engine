@@ -456,9 +456,9 @@ public:
 
                 Neighbourhood *neighbourhood = find_neighbourhood(city, neighbourhood_name);
 
-                string image_plan_path = "img/" + to_string(id) + ".plan.png";
-                string image_interior_path = "img/" + to_string(id) + ".interior.png";
-                string image_exterior_path = "img/" + to_string(id) + ".exterior.png";
+                string image_plan_path = "img/" + to_string(id) + "_plan.png";
+                string image_interior_path = "img/" + to_string(id) + "_interior.png";
+                string image_exterior_path = "img/" + to_string(id) + "_exterior.png";
                 unique_ptr<Image> image = make_unique<Image>();
                 if (file_exists(image_plan_path))
                 {
@@ -663,12 +663,6 @@ int main(int argc, char *argv[])
         string raw_path = (h->image ? h->image->get_path() : "https://picsum.photos/id/1/200/140");
         string final_path = raw_path;
 
-        // If it's a local path (e.g., "img/1.plan.png"), prefix it for Java
-        if (raw_path.find("img/") == 0)
-        {
-            final_path = "file:" + raw_path;
-        }
-
         cout << "  {"
              << "\"name\": \"" << h->address << "\","
              << "\"price\": " << h->price << ","
@@ -680,7 +674,7 @@ int main(int argc, char *argv[])
              << "\"floor\": " << (apt ? apt->floor : 0) << ","
              << "\"parking\": " << h->parking_spots << ","
              << "\"garden\": " << (house ? house->garden_area : 0) << ","
-             << "\"image\": \"" << final_path << "\","
+             << "\"image\": \"" << raw_path << "\","
              << "\"score\": " << score
              << "}";
 
