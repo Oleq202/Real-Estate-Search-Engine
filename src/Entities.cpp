@@ -91,7 +91,7 @@ ostream& operator<<(ostream& os, const Home& h)
     string home_type = apt ? "Apartment" : (house ? "House" : "Unknown");
 
     os 
-    //    << "\"type\": \"" << home_type << "\","
+       << "\"type\": \"" << home_type << "\","
        << "\"name\": \"" << h.address << "\","
        << "\"price\": " << h.price << ","
        << "\"area_sqm\": " << h.area << ","
@@ -102,6 +102,7 @@ ostream& operator<<(ostream& os, const Home& h)
        << "\"floor\": " << (apt ? apt->floor : 0) << ","
        << "\"parking\": " << h.parking_spots << ","
        << "\"garden\": " << (house ? house->garden_area : 0) << ","
+       << "\"for_sale\": " << (h.for_sale ? 1 : 0) << ","
        << "\"image\": \"" << raw_path << "\"";
     return os;
 };

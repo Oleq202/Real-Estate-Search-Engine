@@ -93,3 +93,16 @@
     -fx-padding: 8px 15px;
     -fx-background-radius: 4px;
 }
+
+/* Centered, larger searching label */
+.searching-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3f51b5;
+    -fx-padding: 50 0 50 0; /* Add some space around it */
+}
+
+/* Ensure the results container centers its content when empty/searching */
+.results-layout {
+    -fx-alignment: CENTER; 
+}
