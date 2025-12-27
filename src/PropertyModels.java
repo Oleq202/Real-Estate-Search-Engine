@@ -60,9 +60,8 @@ class HomeResult extends AbstractHome {
         ImageView img = new ImageView(); img.setFitWidth(180); img.setFitHeight(130);
         img.setPreserveRatio(true); loadPhoto(img);
 
-        // Status Badge: Check if value is "TRUE" (backend string) or non-zero
         String forSaleVal = (String)rawData.getOrDefault("for_sale", "0");
-        boolean isForSale = forSaleVal.equalsIgnoreCase("TRUE") || !forSaleVal.equals("0");
+        boolean isForSale = forSaleVal.equals("1") || forSaleVal.equalsIgnoreCase("true") || forSaleVal.equalsIgnoreCase("TRUE");
         
         Label statusLabel = new Label(isForSale ? "FOR SALE" : "FOR RENT");
         statusLabel.setStyle(isForSale ? 
@@ -80,11 +79,17 @@ class HomeResult extends AbstractHome {
         save.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;");
         save.setOnAction(e -> PropertyService.saveOfferToFile(this.name, (String)rawData.get("city"), this.price, ph));
 
+        // Displaying City and Province (Neighbourhood)
+        String location = rawData.getOrDefault("city", "Unknown") + " (" + rawData.getOrDefault("province", "N/A") + ")";
+
         info.getChildren().addAll(
-            titleBox, new Label(this.price + " zł (" + rawData.get("score") + "% Match)"), phLab,
+            titleBox, 
+            new Label(this.price + " zł (" + rawData.get("score") + "% Match)"), 
+            phLab,
             new Label("📐 Area: " + rawData.get("area_sqm") + " sqm | 🚪 Rooms: " + rawData.get("rooms")),
             new Label("🏢 Floor: " + rawData.get("floor") + " | 🚗 Parking: " + rawData.get("parking")),
-            new Label("📍 City: " + rawData.get("city") + " | 🏗️ Built: " + rawData.get("year_built")),
+            new Label("📍 Location: " + location), 
+            new Label("🏗️ Built: " + rawData.get("year_built")),
             save
         );
 
