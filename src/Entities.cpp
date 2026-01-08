@@ -103,6 +103,12 @@ ostream& operator<<(ostream& os, const Home& h)
        << "\"parking\": " << h.parking_spots << ","
        << "\"garden\": " << (house ? house->garden_area : 0) << ","
        << "\"for_sale\": " << (h.for_sale ? 1 : 0) << ","
+       << "\"has_kitchen_annex\": " << (h.has_kitchen_annex ? 1 : 0) << ","
+       << "\"has_elevator\": " << (apt ? (apt->has_elevator ? 1 : 0) : 0) << ","
+       << "\"has_school\": " << (h.neighbourhood ? (h.neighbourhood->has_school ? 1 : 0) : 0) << ","
+       << "\"has_park\": " << (h.neighbourhood ? (h.neighbourhood->has_park ? 1 : 0) : 0) << ","
+       << "\"has_shop\": " << (h.neighbourhood ? (h.neighbourhood->has_shop ? 1 : 0) : 0) << ","
+       << "\"has_pharmacy\": " << (h.neighbourhood ? (h.neighbourhood->has_pharmacy ? 1 : 0) : 0) << ","
        << "\"image\": \"" << raw_path << "\"";
     return os;
 };

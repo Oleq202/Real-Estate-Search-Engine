@@ -7,8 +7,8 @@
 using namespace std;
 
 void Application::run(int argc, char *argv[]) {
-    if (argc < 25) {
-        cerr << "ERROR: Missing arguments. Expected 24 filters + program name." << endl;
+    if (argc < 29) {
+        cerr << "ERROR: Missing arguments. Expected 28 filters + program name." << endl;
         return;
     }
 
@@ -39,7 +39,13 @@ void Application::run(int argc, char *argv[]) {
     criteria.prefer_for_sale = Bool_criteria(string(argv[22]) == "1", 25);
     criteria.prefer_primary_market = Bool_criteria(string(argv[23]) == "1", 25);
 
-    string n_input = argv[24];
+    // Neighbourhood amenities criteria (argv[24-27] are school, park, shop, pharmacy)
+    criteria.prefer_school = Bool_criteria(string(argv[24]) == "1", 8);
+    criteria.prefer_park = Bool_criteria(string(argv[25]) == "1", 8);
+    criteria.prefer_shop = Bool_criteria(string(argv[26]) == "1", 8);
+    criteria.prefer_pharmacy = Bool_criteria(string(argv[27]) == "1", 8);
+
+    string n_input = argv[28];
     if (n_input != "NONE") {
         vector<string> n_list;
         stringstream ss(n_input);

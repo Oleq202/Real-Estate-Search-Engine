@@ -104,6 +104,8 @@ public class App extends Application {
 
         CheckBox forSale = new CheckBox("Search for Sale"); forSale.setSelected(true);
         CheckBox kitchen = new CheckBox("Kitchen annex"); CheckBox elevator = new CheckBox("Elevator");
+        CheckBox school = new CheckBox("School"); CheckBox park = new CheckBox("Park");
+        CheckBox shop = new CheckBox("Shop"); CheckBox pharmacy = new CheckBox("Pharmacy");
         CheckBox primary = new CheckBox("Primary Market");
 
         resultsLayout.setAlignment(Pos.TOP_CENTER); resultsLayout.setMaxWidth(850);
@@ -126,7 +128,9 @@ public class App extends Application {
                         "0", "10000", "0", String.valueOf((int)gardenG.slider.getValue()), "0", "5",
                         String.valueOf((int)transportG.slider.getValue()),
                         kitchen.isSelected()?"1":"0", elevator.isSelected()?"1":"0",
-                        forSale.isSelected()?"1":"0", primary.isSelected()?"1":"0", 
+                        forSale.isSelected()?"1":"0", primary.isSelected()?"1":"0",
+                        school.isSelected()?"1":"0", park.isSelected()?"1":"0",
+                        shop.isSelected()?"1":"0", pharmacy.isSelected()?"1":"0",
                         nStr.isEmpty()?"NONE":nStr).start();
                     
                     try (BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
@@ -164,7 +168,7 @@ public class App extends Application {
         g2.add(new Label("Floor:"), 0, 2); g2.add(minFloorG.slider, 1, 2); g2.add(minFloorG.label, 2, 2);
         g2.add(new Label("Parking:"), 0, 4); g2.add(minParkG.slider, 1, 4); g2.add(minParkG.label, 2, 4);
         g2.add(new Label("Garden:"), 0, 6); g2.add(gardenG.slider, 1, 6); g2.add(gardenG.label, 2, 6);
-        g2.add(new VBox(10, kitchen, elevator), 4, 0, 1, 6);
+        g2.add(new VBox(10, kitchen, elevator, school, park, shop, pharmacy), 4, 0, 1, 6);
 
         TabPane tabs = new TabPane(new Tab("Core Criteria", g1), new Tab("Optional Criteria", g2));
         tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); tabs.setMaxWidth(950);
