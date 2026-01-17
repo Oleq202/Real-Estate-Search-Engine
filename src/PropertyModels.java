@@ -100,11 +100,9 @@ class HomeResult extends AbstractHome {
         save.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;");
         save.setOnAction(e -> PropertyService.saveOfferToFile(this.name, (String) rawData.get("city"), this.price, ph));
 
-        // Displaying City and Province (Neighbourhood)
         String location = rawData.getOrDefault("city", "Unknown") + " (" + rawData.getOrDefault("province", "N/A")
                 + ")";
 
-        // Build amenities string
         StringBuilder amenities = new StringBuilder();
         if ("1".equals(String.valueOf(rawData.getOrDefault("has_kitchen_annex", "0"))))
             amenities.append("🍳 Kitchen ");
@@ -135,6 +133,31 @@ class HomeResult extends AbstractHome {
                 save);
 
         card.getChildren().addAll(img, info);
+        container.getChildren().add(card);
+    }
+}
+
+class StatusMessage implements Renderable {
+    private String message;
+    private Color color;
+
+    public StatusMessage(String message, Color color) {
+        this.message = message;
+        this.color = color;
+    }
+
+    @Override
+    public void renderTo(VBox container) {
+        Label label = new Label(message);
+        label.setTextFill(color);
+        label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 20;");
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
+
+        HBox card = new HBox(label);
+        card.setAlignment(Pos.CENTER);
+        card.setStyle("-fx-background-color: transparent;");
+
         container.getChildren().add(card);
     }
 }

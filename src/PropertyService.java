@@ -3,17 +3,17 @@ import java.io.*;
 import java.util.Random;
 
 public class PropertyService {
-    // ENCAPSULATION: private static field [Requirement: 1pt]
+
     private static final Random rand = new Random();
 
     public static String generatePhoneNumber() {
         int firstDigit = rand.nextBoolean() ? 6 : 7;
         StringBuilder sb = new StringBuilder().append(firstDigit);
-        for (int i = 0; i < 8; i++) sb.append(rand.nextInt(10));
+        for (int i = 0; i < 8; i++)
+            sb.append(rand.nextInt(10));
         return sb.toString();
     }
 
-    // READ/WRITE and ERROR HANDLING [Requirements: 1pt, 2pt]
     public static void saveOfferToFile(String name, String city, int price, String phone) {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("saved_offers.txt", true)))) {
             writer.println("--- Saved Property ---");

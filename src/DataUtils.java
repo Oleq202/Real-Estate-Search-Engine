@@ -1,6 +1,5 @@
 import java.util.*;
 
-// GENERIC CLASS [Requirement: 3pt]
 class DataPacket<T> {
     private T content;
 
@@ -14,7 +13,7 @@ class DataPacket<T> {
 }
 
 public class DataUtils {
-    // COLLECTIONS [Requirement: 1pt]
+
     public static List<Map<String, Object>> parseJson(String json) {
         List<Map<String, Object>> list = new ArrayList<>();
         int start = json.indexOf("["), end = json.lastIndexOf("]");
@@ -31,7 +30,7 @@ public class DataUtils {
             if (cleanObj.isEmpty())
                 continue;
             Map<String, Object> map = new HashMap<>();
-            // Keys must match C++ Entities.cpp exactly
+
             String[] keys = { "name", "price", "area_sqm", "rooms", "year_built", "city", "province", "floor",
                     "parking", "garden", "image", "score", "for_sale", "type", "has_kitchen_annex", "has_elevator",
                     "has_school", "has_park", "has_shop", "has_pharmacy" };

@@ -5,13 +5,10 @@ public class AppTest {
     public static void main(String[] args) {
         System.out.println("--- STARTING EXTENDED UNIT TESTS ---");
 
-        // 1. Full Schema Parsing Test
         testFullPropertyParsing();
 
-        // 2. Multi-Object Array Test
         testMultipleResultsParsing();
 
-        // 3. Service Utility Test
         testPhoneNumberLogic();
 
         System.out.println("--- ALL TESTS COMPLETED ---");
@@ -19,18 +16,18 @@ public class AppTest {
 
     private static void testFullPropertyParsing() {
         System.out.print("Test 1: Full Schema Extraction... ");
-        // Mock JSON containing every field used in the UI
+
         String mockJson = "{" +
-            "\"name\":\"Dolna Wilda\"," +
-            "\"price\":3300," +
-            "\"area_sqm\":68," +
-            "\"rooms\":3," +
-            "\"floor\":1," +
-            "\"parking\":0," +
-            "\"city\":\"Poznan\"," +
-            "\"year_built\":1990," +
-            "\"score\":88" +
-            "}";
+                "\"name\":\"Dolna Wilda\"," +
+                "\"price\":3300," +
+                "\"area_sqm\":68," +
+                "\"rooms\":3," +
+                "\"floor\":1," +
+                "\"parking\":0," +
+                "\"city\":\"Poznan\"," +
+                "\"year_built\":1990," +
+                "\"score\":88" +
+                "}";
 
         boolean pass = true;
         pass &= "Dolna Wilda".equals(DataUtils.extractValue(mockJson, "name"));
@@ -43,8 +40,10 @@ public class AppTest {
         pass &= "1990".equals(DataUtils.extractValue(mockJson, "year_built"));
         pass &= "88".equals(DataUtils.extractValue(mockJson, "score"));
 
-        if (pass) System.out.println("PASSED");
-        else System.err.println("FAILED (Field mismatch)");
+        if (pass)
+            System.out.println("PASSED");
+        else
+            System.err.println("FAILED (Field mismatch)");
     }
 
     private static void testMultipleResultsParsing() {
@@ -63,8 +62,10 @@ public class AppTest {
         System.out.print("Test 3: PropertyService Phone Logic... ");
         String phone = PropertyService.generatePhoneNumber();
         boolean valid = phone.length() == 9 && (phone.startsWith("6") || phone.startsWith("7"));
-        
-        if (valid) System.out.println("PASSED (Generated: " + phone + ")");
-        else System.err.println("FAILED (Invalid format: " + phone + ")");
+
+        if (valid)
+            System.out.println("PASSED (Generated: " + phone + ")");
+        else
+            System.err.println("FAILED (Invalid format: " + phone + ")");
     }
 }

@@ -39,7 +39,6 @@ void Application::run(int argc, char *argv[]) {
     criteria.prefer_for_sale = Bool_criteria(string(argv[22]) == "1", 25);
     criteria.prefer_primary_market = Bool_criteria(string(argv[23]) == "1", 25);
 
-    // Neighbourhood amenities criteria (argv[24-27] are school, park, shop, pharmacy)
     criteria.prefer_school = Bool_criteria(string(argv[24]) == "1", 8);
     criteria.prefer_park = Bool_criteria(string(argv[25]) == "1", 8);
     criteria.prefer_shop = Bool_criteria(string(argv[26]) == "1", 8);
