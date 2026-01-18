@@ -4,6 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
 import javafx.geometry.*;
 import javafx.application.Platform;
 import java.io.*;
@@ -84,6 +85,10 @@ public class App extends Application {
         return new NeighbourhoodGroup(b, cbs);
     }
 
+    private void renderItem(Renderable item) {
+        item.renderTo(resultsLayout);
+    }
+
     @Override
     public void start(Stage stage) {
 
@@ -140,7 +145,7 @@ public class App extends Application {
 
         searchButton.setOnAction(e -> {
             resultsLayout.getChildren().clear();
-            new StatusMessage("Searching...", Color.BLACK).renderTo(resultsLayout);
+            renderItem(new StatusMessage("Searching...", Color.BLACK));
 
             new Thread(() -> {
                 try {
@@ -169,25 +174,27 @@ public class App extends Application {
 
                     try (BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
                         String out = r.lines().collect(Collectors.joining());
-                        List<Map<String, Object>> homes = DataUtils.parseJson(out);
+                        List<Map<String, Object>> rawHomes = DataUtils.parseJson(out);
+
+                        DataPacket<List<Map<String, Object>>> packet = new DataPacket<>(rawHomes);
+
                         Platform.runLater(() -> {
                             resultsLayout.getChildren().clear();
                             resultsLayout.setAlignment(Pos.TOP_CENTER);
 
                             boolean foundAny = false;
-                            for (Map<String, Object> h : homes) {
+                            for (Map<String, Object> h : packet.getContent()) {
                                 String type = h.getOrDefault("type", "").toString().toLowerCase();
                                 boolean matchesFlat = rbFlat.isSelected() && type.contains("apartment");
                                 boolean matchesHouse = rbHouse.isSelected() && type.contains("house");
                                 if (rbBoth.isSelected() || matchesFlat || matchesHouse) {
-                                    new HomeResult(h).renderTo(resultsLayout);
+                                    renderItem(new HomeResult(h));
                                     foundAny = true;
                                 }
                             }
 
                             if (!foundAny) {
-                                new StatusMessage("No properties found matching your criteria.", Color.RED)
-                                        .renderTo(resultsLayout);
+                                renderItem(new StatusMessage("No properties found matching your criteria.", Color.RED));
                             }
                         });
                     }
@@ -261,7 +268,8 @@ public class App extends Application {
         root.setStyle("-fx-background-color: #e8eaf6;");
         ScrollPane scroll = new ScrollPane(root);
         scroll.setFitToWidth(true);
-        stage.setScene(new Scene(scroll, 1150, 850));
+        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+        stage.setScene(new Scene(scroll, bounds.getWidth() * 0.9, bounds.getHeight() * 0.9));
         stage.getScene().getStylesheets().add("styles.css");
         stage.setTitle("Home Seeker Pro");
         stage.show();

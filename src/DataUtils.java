@@ -13,7 +13,6 @@ class DataPacket<T> {
 }
 
 public class DataUtils {
-
     public static List<Map<String, Object>> parseJson(String json) {
         List<Map<String, Object>> list = new ArrayList<>();
         int start = json.indexOf("["), end = json.lastIndexOf("]");

@@ -1,3 +1,4 @@
+
 import java.util.Map;
 import java.util.List;
 
@@ -10,6 +11,8 @@ public class AppTest {
         testMultipleResultsParsing();
 
         testPhoneNumberLogic();
+
+        testGenerics();
 
         System.out.println("--- ALL TESTS COMPLETED ---");
     }
@@ -67,5 +70,20 @@ public class AppTest {
             System.out.println("PASSED (Generated: " + phone + ")");
         else
             System.err.println("FAILED (Invalid format: " + phone + ")");
+
+    }
+
+    private static void testGenerics() {
+        System.out.print("Test 5: Generics (DataPacket<T>)... ");
+
+        DataPacket<String> strPacket = new DataPacket<>("Hello Generic");
+
+        DataPacket<Integer> intPacket = new DataPacket<>(123);
+
+        if (strPacket.getContent().equals("Hello Generic") && intPacket.getContent() == 123) {
+            System.out.println("PASSED (Worked for String and Integer)");
+        } else {
+            System.err.println("FAILED");
+        }
     }
 }

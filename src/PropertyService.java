@@ -15,14 +15,32 @@ public class PropertyService {
     }
 
     public static void saveOfferToFile(String name, String city, int price, String phone) {
-        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("saved_offers.txt", true)))) {
-            writer.println("--- Saved Property ---");
-            writer.println("Property: " + name + " | City: " + city);
-            writer.println("Price: " + price + " zł | Contact: " + phone);
-            writer.println("Saved on: " + new java.util.Date() + "\n");
+        try (OfferWriter writer = new OfferWriter("saved_offers.txt")) {
+            writer.writeOffer(name, city, price, phone);
             new Alert(Alert.AlertType.INFORMATION, "Offer saved!").showAndWait();
         } catch (IOException ex) {
             System.err.println("Failed to write to file: " + ex.getMessage());
         }
     }
+
+    private static class OfferWriter implements AutoCloseable {
+        private PrintWriter writer;
+
+        public OfferWriter(String filename) throws IOException {
+            this.writer = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
+        }
+
+        public void writeOffer(String name, String city, int price, String phone) {
+            writer.println("--- Saved Property ---");
+            writer.println("Property: " + name + " | City: " + city);
+            writer.println("Price: " + price + " zł | Contact: " + phone);
+            writer.println("Saved on: " + new java.util.Date() + "\n");
+        }
+
+        @Override
+        public void close() {
+            writer.close();
+        }
+    }
+
 }

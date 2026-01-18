@@ -12,6 +12,10 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+enum PropertyType {
+    APARTMENT, HOUSE, UNKNOWN
+}
+
 interface Renderable {
     void renderTo(VBox container);
 }
@@ -59,8 +63,17 @@ abstract class AbstractHome implements Renderable {
 }
 
 class HomeResult extends AbstractHome {
+    private PropertyType type;
+
     public HomeResult(Map<String, Object> d) {
         super(d);
+        String typeStr = (String) d.getOrDefault("type", "");
+        if (typeStr.toLowerCase().contains("house"))
+            this.type = PropertyType.HOUSE;
+        else if (typeStr.toLowerCase().contains("apartment"))
+            this.type = PropertyType.APARTMENT;
+        else
+            this.type = PropertyType.UNKNOWN;
     }
 
     @Override
