@@ -29,10 +29,10 @@ void Neighbourhood_initializer::read_csv(const string &filename, City &city) {
         
         try {
             string name = row[0];
-            bool has_school = parse_bool(row[1]);
-            bool has_park = parse_bool(row[2]);
-            bool has_shop = parse_bool(row[3]);
-            bool has_pharmacy = parse_bool(row[4]);
+            bool has_school = parse_bool(row[2]);
+            bool has_park = parse_bool(row[3]);
+            bool has_shop = parse_bool(row[4]);
+            bool has_pharmacy = parse_bool(row[5]);
             auto neighbourhood = make_unique<Neighbourhood>(name, &city, has_school, has_park, has_shop, has_pharmacy);
             city.neighbourhood_list.push_back(move(neighbourhood));
         } catch (const exception &e){
