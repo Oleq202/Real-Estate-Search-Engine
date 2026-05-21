@@ -1,3 +1,4 @@
 *.class
 *.exe
 Legacy.java
+.vscode/
